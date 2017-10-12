@@ -1,4 +1,3 @@
-
 /*
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,22 +24,11 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "keypad_buttons.h"
 
 #define KEY_50MS_FLAG         50000U   /**< Flag set every 50ms [us] */
 #define KEY_DEBOUNCE_CLICK    2U       /**< Debounce time [50ms cycles] */
 #define KEY_DEBOUNCE_HOLD     8U      /**< Debounce time [50ms cycles] */
-
-/**< Enumeration of buttons */
-typedef enum e_buttons_
-{
-    BUTTON_SELECT,
-    /*
-    BUTTON_LEFT,
-    BUTTON_RIGHT,
-    */
-
-    NUM_BUTTONS
-} e_key;
 
 /**< Enumeration of button event */
 typedef enum e_key_event_
