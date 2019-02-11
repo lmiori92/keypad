@@ -39,6 +39,16 @@ void keypad_init(void)
     }
 }
 
+void keypad_reset_input(void)
+{
+    uint8_t i = 0;
+
+    for (i = 0; i < NUM_BUTTONS; i++)
+    {
+        keypad[i].input    = false;
+    }
+}
+
 void keypad_set_input(e_key key, bool value)
 {
     keypad[key].input = value;
@@ -55,7 +65,7 @@ e_key_event keypad_clicked(e_key key)
 }
 
 /* Read the keypad, apply debounce to inputs and detect the rising edge */
-void keypad_periodic(bool flag_50ms)
+void keypad_periodic(bool flag_debounce)
 {
 
     uint8_t i = 0;
@@ -66,7 +76,7 @@ void keypad_periodic(bool flag_50ms)
         keypad[i].buttons = KEY_NONE;
 
         /* debounce the raw input */
-        if ((flag_50ms == true) && (keypad[i].debounce < KEY_DEBOUNCE_HOLD))
+        if ((flag_debounce == true) && (keypad[i].debounce < KEY_DEBOUNCE_HOLD))
         {
             /* flag available, count up */
             keypad[i].debounce++;
@@ -96,9 +106,9 @@ void keypad_periodic(bool flag_50ms)
                 /* not yet triggered or timeout */
             }
         }
-        else
+        else if (keypad[i].latches == true && keypad[i].input == false)
         {
-            if (keypad[i].debounce > KEY_DEBOUNCE_CLICK && keypad[i].debounce < KEY_DEBOUNCE_HOLD)
+            if (keypad[i].debounce >= KEY_DEBOUNCE_CLICK && keypad[i].debounce < KEY_DEBOUNCE_HOLD)
             {
                 /* click event */
                 keypad[i].buttons = KEY_CLICK;

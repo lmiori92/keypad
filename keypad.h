@@ -26,10 +26,6 @@
 #include <stdbool.h>
 #include "keypad_buttons.h"
 
-#define KEY_50MS_FLAG         50000U   /**< Flag set every 50ms [us] */
-#define KEY_DEBOUNCE_CLICK    2U       /**< Debounce time [50ms cycles] */
-#define KEY_DEBOUNCE_HOLD     8U      /**< Debounce time [50ms cycles] */
-
 /**< Enumeration of button event */
 typedef enum e_key_event_
 {
@@ -50,8 +46,9 @@ typedef struct
 
 void keypad_init(void);
 e_key_event keypad_clicked(e_key key);
+void keypad_reset_input(void);
 void keypad_set_input(e_key key, bool value);
 bool keypad_get_input(e_key key);
-void keypad_periodic(bool flag_50ms);
+void keypad_periodic(bool flag_debounce);
 
 #endif /* _KEYPAD_H_ */
